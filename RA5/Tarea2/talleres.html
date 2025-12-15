@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PRÁCTICA_2_UT05 - Talleres</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Catálogo de Talleres</h1>
+    </header>
+    <nav>
+        <a href="index.html">Volver a Inicio</a>
+    </nav>
+
+    <h2>Nuestros Talleres</h2>
+    <input type="text" id="taller-search" placeholder="Busca por nombre (evento keyup)">
+    
+    <div id="taller-list">
+        <div class="taller-item" id="taller-T01" data-nombre="Introducción a JS" data-nivel="Básico" data-horario="Mañana" data-precio="49.95">
+            <div class="taller-info">
+                <h3>T01: Introducción a JS (Básico)</h3>
+                <p>Horario: Mañana | Precio: 49.95€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T01">Añadir</button>
+            </div>
+        </div>
+        
+        <div class="taller-item" id="taller-T02" data-nombre="Express.js Avanzado" data-nivel="Avanzado" data-horario="Tarde" data-precio="120.00">
+            <div class="taller-info">
+                <h3>T02: Express.js Avanzado (Avanzado)</h3>
+                <p>Horario: Tarde | Precio: 120.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T02">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T03" data-nombre="CSS Flexbox/Grid" data-nivel="Intermedio" data-horario="Online" data-precio="65.50">
+            <div class="taller-info">
+                <h3>T03: CSS Flexbox/Grid (Intermedio)</h3>
+                <p>Horario: Online | Precio: 65.50€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T03">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T04" data-nombre="Git y Github" data-nivel="Básico" data-horario="Mañana" data-precio="30.00">
+            <div class="taller-info">
+                <h3>T04: Git y Github (Básico)</h3>
+                <p>Horario: Mañana | Precio: 30.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T04">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T05" data-nombre="Bases de Datos SQL" data-nivel="Intermedio" data-horario="Tarde" data-precio="85.00">
+            <div class="taller-info">
+                <h3>T05: Bases de Datos SQL (Intermedio)</h3>
+                <p>Horario: Tarde | Precio: 85.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T05">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T06" data-nombre="APIs REST" data-nivel="Avanzado" data-horario="Online" data-precio="150.00">
+            <div class="taller-info">
+                <h3>T06: APIs REST (Avanzado)</h3>
+                <p>Horario: Online | Precio: 150.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T06">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T07" data-nombre="Testing con Jest" data-nivel="Intermedio" data-horario="Mañana" data-precio="95.00">
+            <div class="taller-info">
+                <h3>T07: Testing con Jest (Intermedio)</h3>
+                <p>Horario: Mañana | Precio: 95.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T07">Añadir</button>
+            </div>
+        </div>
+
+        <div class="taller-item" id="taller-T08" data-nombre="Usabilidad UX/UI" data-nivel="Básico" data-horario="Tarde" data-precio="75.00">
+            <div class="taller-info">
+                <h3>T08: Usabilidad UX/UI (Básico)</h3>
+                <p>Horario: Tarde | Precio: 75.00€</p>
+            </div>
+            <div class="taller-actions">
+                <input type="number" min="1" value="1">
+                <button class="add-to-cart" data-taller-id="T08">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="carrito">
+        <h2>🛍️ Carrito de la Compra (Persistente con Cookie)</h2>
+        <p>Los datos se guardan en la cookie **carrito** con formato ID:cantidad|ID:cantidad.</p>
+        <div id="carrito-contenido">
+            </div>
+        
+        <h3>TOTAL: <span id="carrito-total">0.00€</span></h3>
+        <button id="vaciar-carrito">Vaciar Carrito</button>
+    </div>
+
+    <script src="js/cookies.js"></script>
+    <script src="js/eventos.js"></script>
+</body>
+</html>
