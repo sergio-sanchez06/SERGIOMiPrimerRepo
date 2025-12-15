@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Control de navegación con location</h1>
+
+    <button onclick="recargar()">Recargar la página sin caché</button>
+    <button onclick="go_other_page()">Ir a otra página</button>
+    <button onclick="replace_page()">Reemplazar página</button>
+     <p id="estado"></p>
+
+    <script>
+
+        const btRecargar = document.getElementsByTagName("button")[0];
+        const btOtraPagina = document.getElementsByTagName("button")[1];
+        const btReemplazar = document.getElementsByTagName("button")[2];
+
+        const estado = document.getElementById("estado");
+
+        function recargar(){
+
+            estado.innerHTML = "Recargando la página sin usar la caché ...";
+            location.reload(true);
+
+        }
+
+        function go_other_page(){
+
+            location.assign("ejer1.html");
+
+        }
+
+        function replace_page(){
+
+            location.replace("ejer1.html")
+
+        }
+
+    </script>
+
+</body>
+</html>

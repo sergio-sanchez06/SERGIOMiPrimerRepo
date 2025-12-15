@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Información del navegador</h1>
+
+    <button onclick="mostrarInformacion()">Mostrar Informacion del navegador</button>
+
+    <div id="info"></div>
+    
+<script>
+
+    const info = document.getElementById("info");
+
+    function mostrarInformacion(){
+
+        info.innerHTML += "<br>"
+    info.innerHTML += "URL completa: " + location.href
+    info.innerHTML += "<br>"
+    info.innerHTML += "Dominio del documento: " + document.domain
+    info.innerHTML += "<br>"
+    info.innerHTML += "Ancho interior de la ventana:  " + window.innerWidth
+    info.innerHTML += "<br>"
+    info.innerHTML += "Alto interior de la ventana:  " + window.innerHeight
+    info.innerHTML += "<br>"
+    info.innerHTML += "Cookies habilitadas: " + (navigator.cookieEnabled ? "Cookies habilitadas" : "Cookies deshabilitadas");
+
+    }
+
+</script>
+
+</body>
+</html>

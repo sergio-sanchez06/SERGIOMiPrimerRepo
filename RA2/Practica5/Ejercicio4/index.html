@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="grid-container">
+
+        <div class="card">
+
+            <h2>Tabla</h2>
+            <p>Contenido relacionado con tablas de multiplicar</p>
+            Dime un numero: <input type="number" id="num_multiplicar">
+            <button onclick="CALCULAR_TABLA()">Mostrar Tabla de multiplicar</button>
+            <div id="tabla"></div>
+
+        </div>
+        <div class="card">
+
+            <h2>Pares/Impares</h2>
+            <p>Contenido que distingue entre números pares e impares.</p>
+            Dime el inicio del rango<input type="number" id="inicio">
+            Dime el final del rango<input type="number" id="fin">
+            <button onclick="CALCULAR_PARES_IMPARES()">Mostrar listas de pares e impares</button>
+            <div id="par"></div>
+            <div id="impar"></div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Acumulada</h2>
+            <p>Contenido que muestra acumulación de valores o sumatorias.</p>
+            Dime hasta que numero sumar <input type="number" name="" id="acumular">
+            <label><input type="checkbox" id="mostrarConsola" />Mostrar en consola</label>
+            <button onclick="ACUMULADOR()">Mostrar Acumulacion</button>
+            <div id="acumulador"></div>
+
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

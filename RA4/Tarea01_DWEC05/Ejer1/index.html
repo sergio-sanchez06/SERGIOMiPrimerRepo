@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+    <script src="script.js"></script>
+
+</head>
+
+<body>
+
+    <form id="form" action="" method="post">
+
+        <label for="equiposSelect">Equipos</label>
+        <select name="equiposSelect" id="equiposSelect">
+            <option value="Real Madrid">Real Madrid</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Getafe">Getafe</option>
+        </select>
+
+        <label for="equiposInput">Equipos</label>
+        <input list="equiposList" type="text" name="equiposInput" id="equiposInput">
+
+        <datalist id="equiposList">
+            <option value="Real Madrid">Real Madrid</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Getafe">Getafe</option>
+        </datalist>
+
+        <button type="submit" id="imprimir">Imprimir</button>
+
+    </form>
+
+    <p id="resultadoSelect"></p>
+    <p id="resultadoInput"></p>
+
+</body>
+
+</html>

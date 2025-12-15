@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación de Delegado de Clase</title>
+    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuración de la fuente Inter */
+        html { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 md:p-10">
+        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6 border-b pb-4">Elección de Delegado y Subdelegado</h1>
+
+        <!-- Sección de Votación Actual -->
+        <div id="voting-section" class="mb-8 p-6 border border-indigo-200 rounded-lg bg-indigo-50">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Votación en Curso</h2>
+            <p id="current-voter" class="text-lg font-medium text-gray-700 mb-4">...</p>
+            <div id="candidate-buttons" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Los botones de los candidatos se inyectarán aquí -->
+            </div>
+        </div>
+
+        <!-- Sección de Resultados (Inicialmente oculta) -->
+        <div id="results-section" class="hidden mt-8 p-6 border border-green-300 rounded-lg bg-green-50">
+            <h2 class="text-2xl font-bold text-green-700 mb-4">Resultados Finales</h2>
+            <div id="final-delegate" class="text-xl font-semibold mb-3"></div>
+            <div id="final-subdelegate" class="text-xl font-semibold mb-4"></div>
+            
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 border-t pt-3">Conteo de Votos</h3>
+            <div id="vote-counts" class="space-y-2">
+                <!-- El conteo de votos se inyectará aquí -->
+            </div>
+
+            <!-- Botón de Repetición para Desempate -->
+            <button id="repeat-button" class="mt-5 w-full py-3 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition-colors hidden" onclick="Votacion.resetearVotacion()">
+                ⚠️ ¡Hubo Empate! Repetir Votación
+            </button>
+        </div>
+
+        <!-- Sección de Estado General -->
+        <div id="status-section" class="mt-6 text-center text-sm text-gray-500">
+            <p id="progress-bar">Progreso: 0 / 0 votos completados.</p>
+        </div>
+        
+    </div>
+
+    <script>
+        // Configuración de Tailwind para usar el color Inter como fuente predeterminada
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+
+        /**
+         * CLASE ALUMNO
+         * Define la estructura de cada estudiante (propiedades) y su método de votación.
+         */
+        class Alumno {
+            /**
+             * Constructor: Inicializa el nombre del alumno y su estado de votación.
+             * @param {string} nombre - Nombre del alumno.
+             */
+            constructor(nombre) {
+                this.nombre = nombre;
+                this.haVotado = false; // Propiedad para asegurar un voto por persona
+            }
+
+            /**
+             * Método de clase para simular la emisión del voto.
+             * @param {string} candidatoId - El identificador del candidato elegido.
+             * @returns {string | null} El ID del candidato votado si es un voto nuevo, o null si ya votó.
+             */
+            emitirVoto(candidatoId) {
+                if (!this.haVotado) {
+                    this.haVotado = true;
+                    return candidatoId;
+                } else {
+                    return null; // El alumno ya había votado.
+                }
+            }
+        }
+
+        // --- GESTIÓN DE LA VOTACIÓN ---
+
+        // 1. Array de objetos Alumno (Simulación de carga desde fichero)
+        const AlumnosData = [
+            new Alumno("Ana García"),
+            new Alumno("Beto Pérez"),
+            new Alumno("Carlos Ruiz"),
+            new Alumno("Diana Soto"),
+            new Alumno("Elena Torres"),
+            new Alumno("Félix Vargas"),
+            new Alumno("Gloria Vega"),
+            new Alumno("Héctor Gil"),
+            new Alumno("Irene López"),
+            new Alumno("Javier Marín"),
+            new Alumno("Laura Nieves"),
+            new Alumno("Miguel Olmos"),
+        ];
+
+        // 2. Array de objetos para los Candidatos
+        const Candidatos = [
+            { id: 'C1', nombre: 'Candidato 1 (María)' },
+            { id: 'C2', nombre: 'Candidato 2 (Pedro)' },
+            { id: 'C3', nombre: 'Candidato 3 (Sofía)' },
+        ];
+
+        /**
+         * Objeto Votacion: Encapsula toda la lógica de la aplicación.
+         */
+        const Votacion = {
+            alumnos: [...AlumnosData], // Los votantes
+            candidatos: Candidatos,
+            conteoVotos: {}, // Almacena el conteo: { 'C1': 5, 'C2': 3, ... }
+            votanteActualIndex: 0,
+            
+            /**
+             * Inicializa la votación.
+             */
+            iniciar: function() {
+                this.conteoVotos = {};
+                this.votanteActualIndex = 0;
+                
+                // Inicializar el conteo de votos a cero
+                this.candidatos.forEach(c => {
+                    this.conteoVotos[c.id] = 0;
+                });
+                
+                this.alumnos.forEach(a => a.haVotado = false); // Restablecer estado de votación de alumnos
+                
+                // Asegurar que la interfaz muestre el votante actual
+                this.actualizarUI();
+            },
+
+            /**
+             * Procesa la votación del alumno actual.
+             * @param {string} candidatoId - ID del candidato elegido.
+             */
+            votar: function(candidatoId) {
+                const alumno = this.alumnos[this.votanteActualIndex];
+                
+                if (alumno) {
+                    // Llama al método emitirVoto del objeto Alumno
+                    const voto = alumno.emitirVoto(candidatoId);
+                    
+                    if (voto) {
+                        this.conteoVotos[voto]++; // Registra el voto en el conteo global
+                        this.siguienteVotante();
+                    }
+                }
+            },
+
+            /**
+             * Avanza al siguiente alumno o termina la votación.
+             */
+            siguienteVotante: function() {
+                this.votanteActualIndex++;
+                
+                if (this.votanteActualIndex < this.alumnos.length) {
+                    this.actualizarUI();
+                } else {
+                    this.finalizarVotacion();
+                }
+            },
+
+            /**
+             * Calcula los resultados finales y verifica si hay empates.
+             */
+            finalizarVotacion: function() {
+                // Ocultar votación y mostrar resultados
+                document.getElementById('voting-section').classList.add('hidden');
+                document.getElementById('results-section').classList.remove('hidden');
+                document.getElementById('repeat-button').classList.add('hidden');
+                
+                // Convertir el conteo en un array de resultados para poder ordenar
+                const resultados = Object.entries(this.conteoVotos).map(([id, votos]) => {
+                    const nombre = this.candidatos.find(c => c.id === id).nombre;
+                    return { id, nombre, votos };
+                });
+
+                // Ordenar por votos (de mayor a menor)
+                resultados.sort((a, b) => b.votos - a.votos);
+
+                const delegado = resultados[0];
+                const subdelegado = resultados[1];
+                
+                // Lógica de desempate
+                let hayEmpateDelegado = resultados.length > 1 && delegado.votos === subdelegado.votos;
+                let hayEmpateSubdelegado = resultados.length > 2 && subdelegado.votos === resultados[2].votos;
+
+                this.mostrarConteoVotos(resultados);
+                this.mostrarCargos(delegado, subdelegado, hayEmpateDelegado, hayEmpateSubdelegado);
+
+                // Dar la opción de repetir la votación si hay empate
+                if (hayEmpateDelegado || hayEmpateSubdelegado) {
+                    document.getElementById('repeat-button').classList.remove('hidden');
+                }
+            },
+            
+            /**
+             * Reinicia el proceso de votación (usado para desempates).
+             */
+            resetearVotacion: function() {
+                // Resetear el estado de los votantes y el conteo
+                this.votanteActualIndex = 0;
+                this.conteoVotos = {};
+                this.alumnos.forEach(a => a.haVotado = false);
+                
+                // Actualizar UI
+                document.getElementById('results-section').classList.add('hidden');
+                document.getElementById('voting-section').classList.remove('hidden');
+                document.getElementById('repeat-button').classList.add('hidden');
+                
+                this.iniciar();
+            },
+
+            /**
+             * Actualiza la interfaz para mostrar el votante actual y el progreso.
+             */
+            actualizarUI: function() {
+                const totalAlumnos = this.alumnos.length;
+                const alumnoActual = this.alumnos[this.votanteActualIndex];
+                
+                document.getElementById('current-voter').innerHTML = `Es el turno de votar de: <span class="text-indigo-800 font-bold">${alumnoActual.nombre}</span>`;
+                document.getElementById('progress-bar').textContent = `Progreso: ${this.votanteActualIndex} / ${totalAlumnos} votos completados.`;
+            },
+            
+            /**
+             * Configura dinámicamente los botones de los candidatos.
+             */
+            configurarBotones: function() {
+                const buttonsDiv = document.getElementById('candidate-buttons');
+                buttonsDiv.innerHTML = '';
+                this.candidatos.forEach(c => {
+                    const button = document.createElement('button');
+                    button.textContent = c.nombre;
+                    button.className = 'py-3 px-4 bg-indigo-600 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 transition-colors transform hover:scale-105';
+                    // Asignar el método votar al hacer clic, pasando el ID del candidato
+                    button.onclick = () => this.votar(c.id);
+                    buttonsDiv.appendChild(button);
+                });
+            },
+
+            /**
+             * Muestra el conteo detallado de votos.
+             */
+            mostrarConteoVotos: function(resultados) {
+                const countsDiv = document.getElementById('vote-counts');
+                countsDiv.innerHTML = '';
+                resultados.forEach(res => {
+                    countsDiv.innerHTML += `
+                        <p class="flex justify-between items-center text-gray-700">
+                            <span class="font-medium">${res.nombre}</span>
+                            <span class="px-3 py-1 bg-gray-200 text-gray-800 font-bold rounded-full">${res.votos} votos</span>
+                        </p>
+                    `;
+                });
+            },
+
+            /**
+             * Muestra el delegado y subdelegado, destacando los empates.
+             */
+            mostrarCargos: function(delegado, subdelegado, hayEmpateDelegado, hayEmpateSubdelegado) {
+                const delegadoDiv = document.getElementById('final-delegate');
+                const subdelegadoDiv = document.getElementById('final-subdelegate');
+
+                // Lógica y Mensajes para Delegado
+                if (hayEmpateDelegado) {
+                    delegadoDiv.className = "text-xl font-semibold mb-3 text-red-600";
+                    delegadoDiv.textContent = `DELEGADO: ⚠️ EMPATE por la primera posición con ${delegado.votos} votos.`;
+                } else {
+                    delegadoDiv.className = "text-xl font-semibold mb-3 text-green-700";
+                    delegadoDiv.textContent = `DELEGADO(A) ELEGIDO(A): ${delegado.nombre} con ${delegado.votos} votos. 🎉`;
+                }
+
+                // Lógica y Mensajes para Subdelegado
+                if (hayEmpateSubdelegado && !hayEmpateDelegado) { 
+                    subdelegadoDiv.className = "text-xl font-semibold mb-4 text-red-600";
+                    subdelegadoDiv.textContent = `SUBDELEGADO: ⚠️ EMPATE por la segunda posición con ${subdelegado.votos} votos.`;
+                } else if (!hayEmpateDelegado) {
+                    subdelegadoDiv.className = "text-xl font-semibold mb-4 text-green-600";
+                    subdelegadoDiv.textContent = `SUBDELEGADO(A) ELEGIDO(A): ${subdelegado.nombre} con ${subdelegado.votos} votos.`;
+                } else {
+                    subdelegadoDiv.textContent = "SUBDELEGADO: Posición no determinada debido al empate de Delegado.";
+                }
+            }
+        };
+
+        // --- Inicialización: Ejecutar al cargar la página ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            Votacion.configurarBotones();
+            Votacion.iniciar();
+        });
+
+    </script>
+
+</body>
+</html>

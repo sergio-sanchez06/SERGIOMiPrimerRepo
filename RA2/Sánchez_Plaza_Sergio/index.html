@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      table,
+      tr,
+      td,
+      th {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+      }
+
+      td,
+      th {
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <script src="operaciones.js"></script>
+
+    <h1>Tabla de Multiplicar</h1>
+
+    <p>La tabla de multiplicar del 7 es:</p>
+    <button onclick="tablaMultiplicar(7)">Calcular</button>
+
+    <div id="tablaMultiplicar"></div>
+
+    <p>La tabla de sumar del 8 es:</p>
+    <button onclick="tablaSuma(8)">Calcular</button>
+
+    <div id="tablaSumar"></div>
+
+    <p>La tabla de dividir del 9 es:</p>
+    <button onclick="tablaDividir(9)">Calcular</button>
+    <div id="tablaDividir"></div>
+
+    <h2>Apartado 2</h2>
+
+    <p>
+
+    <!-- Estamos desplazando los bits 3 posiciones a la derecha, lo que implica una division entre 8 (2^3=8) -->
+
+      125 / 8 =
+      <script>
+        document.write(125 >> 3);
+      </script>
+    </p>
+
+    <!-- Estamos desplazando los bits 2 posiciones a la izquierda, lo que implica una multiplicacion por 4 (2^2=4) -->
+
+    <p>
+      40 X 4 =
+      <script>
+        document.write(40 << 2);
+      </script>
+    </p>
+
+    <!-- Estamos desplazando los bits 1 posicion a la derecha, lo que implica una division entre 1 (2^1=2) -->
+
+    <p>
+      25 / 2 =
+      <script>
+        document.write(25 >> 1);
+      </script>
+    </p>
+
+    <!-- Estamos desplazando los bits 4 posiciones a la izquierda, lo que implica una multiplicacion por 16 (2^4=16) -->
+
+    <p>
+      10 * 16 =
+      <script>
+        document.write(10 << 4);
+      </script>
+    </p>
+
+  </body>
+</html>

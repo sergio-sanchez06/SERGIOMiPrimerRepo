@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" name="archivos" id="archivos" accept=".txt, .html, .py, .js" />
+
+    <div id="zonadatos"></div>
+
+    <script>
+      let datos = new Array();
+      let zonadatos;
+
+      function comenzar() {
+        zonadatos = document.getElementById("zonadatos");
+        let archivos = document.getElementById("archivos");
+        archivos.addEventListener("change", procesar, false);
+      }
+
+      function procesar(e) {
+        let archivos = e.target.files;
+        let mi_archivo = archivos[0];
+        let lector = new FileReader();
+        lector.readAsText(mi_archivo);
+        lector.addEventListener("load", mostrar_en_web, false);
+      }
+
+      function mostrar_en_web(e) {
+        let resultado = e.target.result;
+        datos = resultado.split('\n');
+        zonadatos.innerHTML = datos;
+      }
+
+      window.addEventListener("load", comenzar, false);
+    </script>
+  </body>
+</html>

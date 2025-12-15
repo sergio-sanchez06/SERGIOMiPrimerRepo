@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script.js"></script>
+</head>
+<body>
+    
+    <form id="form" action="#" method="post">
+
+        <p>
+
+            <label for="select">Seleccione un equipo</label>
+
+            <select name="selectEquipos" id="selectEquipos">
+
+                <option value="Real Madrid">Real Madrid</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Getafe">Getafe</option>
+
+            </select>
+
+        </p>
+
+        <p>
+
+            <label for="input">Introduzca un equipo</label>
+            <input type="text" list="equipos" id="input">
+
+        </p>
+
+        <datalist id="equipos">
+
+            <option value="Real Madrid">Real Madrid</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Getafe">Getafe</option>
+
+        </datalist>
+
+        <button type="submit">Imprimir</button>
+
+    </form>
+
+
+    <p id="pInput"></p>
+    <p id="pSelect"></p>
+
+</body>
+</html>

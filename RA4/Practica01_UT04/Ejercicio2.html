@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        .enunciado{
+
+            font-weight: bold;
+            font-size: 1.5em;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="resultados"></div>
+
+    <script>
+
+        let resultados = document.getElementById("resultados")
+
+        let elementos = ["Planta", "Tierra", "Fuego", "Nieve", "Mar", "Cielo", "Coche", "Moto", "Bicicleta", "Plane"];
+
+        // 1. Motrar los elementos en una linea distinta
+
+        resultados.innerHTML += `<p class='enunciado'>Mostrar los elementos en una linea distinta</p>`;
+
+        // elementos.forEach(palabra => {
+
+        //     console.log(palabra + "\n");
+        //     resultados.innerHTML += `<p>${palabra}</p>`
+
+        // })
+
+        resultados.innerHTML += elementos.map(e => "<p>" + e + "</p>").join("")
+        // resultados.innerHTML += elementos.join("<br>")
+
+        // 2. Añade al array un dato más mediante un solo método.
+
+        resultados.innerHTML += "<p class='enunciado'>Añadimos un elemento al final del array</p>";
+        elementos.push("Do")
+        resultados.innerHTML += `<p>${elementos.join(" - ")}</p>`;
+
+        // 3. Añade al array dos datos más utilizando un solo método.
+
+        resultados.innerHTML += "<p class='enunciado'>Añadimos dos elementos más al final del array</p>";
+        elementos.push("Re", "Mi#")
+        resultados.innerHTML += `<p>${elementos.join(" - ")}</p>`;
+
+        // 4. Añade un dato más al principio del array.
+
+        resultados.innerHTML += "<p class='enunciado'>Añadimos un elemento más al principio del array</p>";
+        elementos.unshift("Si♭")
+        resultados.innerHTML += `<p>${elementos.join(" - ")}</p>`;
+
+        // 5. Localiza un cierto dato dentro del array.
+
+        resultados.innerHTML += "<p class='enunciado'>Localizar la palbra Moto dentro del array</p>";
+
+        console.log(elementos.find((palabra) => palabra === "Moto"));
+        resultados.innerHTML += "<p>"+elementos.find((palabra) => palabra === "Moto")+"</p>";
+
+        // 6. Elimina los últimos tres datos del array.
+
+        resultados.innerHTML += "<p class='enunciado'>Eliminamos los ultimos 3 elementos del array</p>";
+        elementos.splice(elementos.length - 3, 3)
+        // elementos.splice(-3)
+        resultados.innerHTML += `<p>${elementos.join(" - ")}</p>`;
+
+        // 7. Crea un sub-array llamado array_recortado con los datos del array elementos, comprendidos entre la posición 4 y 8 (ambos inclusive).
+
+        array_recortado = elementos.slice(4, 9)
+
+        console.log(array_recortado)
+
+        resultados.innerHTML += "<p class='enunciado'>Creamos un subarray con los elementos de las posiciones 4,5,6,7,8 del array original</p>"
+
+        resultados.innerHTML += `<p>${array_recortado.join(" - ")}</p>`
+
+        // 8. Crea un nuevo array llamado elementos_MYCLS con los datos del array elementos en mayúsculas, para ello haz uso de una función.
+
+        elementos_MYCLS = elementos.map(palabra => palabra.toUpperCase())
+
+        console.log(elementos_MYCLS)
+
+        resultados.innerHTML += "<p class='enunciado'>Creamos un array con los elementos en mayusculas del array original</p>"
+
+        resultados.innerHTML += `<p>${elementos_MYCLS.join(" - ")}</p>`;
+
+    </script>
+
+</body>
+
+</html>

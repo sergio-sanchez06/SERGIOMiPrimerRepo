@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <select id="asignatura">
+
+        <option value="fisica">Fisica</option>
+        <option value="programacion">Programacion</option>
+        <option value="logica">Logica</option>
+        <option value="quimica">Quimica</option>
+
+    </select>
+
+    <button id="bt">Mostrar profesor y alumnos</button>
+
+    <div id="result"></div>
+
+    <script>
+
+        let materias = {
+            "fisica": ["Berni", "Flabio", "Cofla", "Julio", "Manuel", "Jorge"],
+            "programacion": ["Berni", "Flabio", "Esteban", "Julio", "Manuel", "Jorge"],
+            "logica": ["Emilio", "Flabio", "Esteban", "Julio"],
+            "quimica": ["Emilio", "Flabio", "Esteban", "Julio", "Manuel", "Andres", "Cofla"]
+        }
+
+        let bt = document.getElementById("bt");
+
+        let result = document.getElementById("result")
+
+        let seleccion = document.getElementById("asignatura")
+
+        let asignatura = seleccion.value;
+
+        bt.addEventListener("click", () => {
+            let asignatura = seleccion.value;
+            ver_profesor_alumnos(asignatura);
+        });
+
+        function ver_profesor_alumnos(materia) {
+
+            let datos = "";
+
+            let indice_mat = "";
+
+            for (let index in materias) {
+
+                if (materia === index) {
+
+                    indice_mat = index
+                    break;
+
+                }
+
+
+            }
+
+            if (indice_mat === "") {
+
+                console.log("La materia a consultar no existe")
+                return
+
+            }
+
+            for (let index = 0; index < materias[indice_mat].length; index++) {
+
+                switch (index) {
+
+                    case 0:
+
+                        datos += `<p>Profesor: ${materias[indice_mat][index]}</p>`;
+                        datos += `<hr>`;
+
+                        console.log(`Profesor: ${materias[indice_mat][index]}`)
+
+                        break;
+
+                    case 1:
+
+                        continue;
+
+                    default:
+
+                        datos += `<p>Alumno: ${materias[indice_mat][index]}</p>`;
+                        console.log(`Alumno: ${materias[indice_mat][index]}`)
+                        break;
+                }
+
+            }
+
+            result.innerHTML = datos;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

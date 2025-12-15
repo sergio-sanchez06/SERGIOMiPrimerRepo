@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Inspector de iframes</h1>
+
+    <iframe
+      src="contenido.html"
+      frameborder="0"
+      id="miFrame"
+      name="menu"
+    ></iframe>
+
+    <button onclick="leer()">Leer texto del iframe</button>
+    <button onclick="replace()">Reemplazar contenido del iframe</button>
+
+    <div id="resultado"></div>
+
+    <script>
+
+      const resultado = document.getElementById("resultado");
+
+      function leer() {
+
+        const marco = window.frames["menu"].document;
+
+        const parrafo = marco.getElementById("mensajeIframe");
+
+        resultado.innerHTML = parrafo.textContent;
+      }
+
+      function replace() {
+        
+        parent.frames["menu"].location.replace("nuevo.html");
+        resultado.innerHTML = "Se ha reemplazado el contenido del iframe";
+
+      }
+
+      console.log(document.domain); 
+    </script>
+  </body>
+</html>

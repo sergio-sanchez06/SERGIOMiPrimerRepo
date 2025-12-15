@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2>Soy la ventana emergente</h2>
+
+    <button onclick="sendMessage()">Enviar mensaje al opener</button>
+    <button onclick="closeWindow()">Cerrar esta ventana</button>
+
+    <script>
+
+        function sendMessage(){
+
+            if(!window.opener || opener.closed){
+
+                alert("No se puede acceder a la ventana padre");
+                return;
+
+            }
+
+            window.opener.document.getElementById("mensajePrincipal").textContent = "Mensaje enviado desde la popup";
+
+        }
+
+        function closeWindow(){
+
+            window.close();
+
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Votación Delegado y Subdelegado</title>
+  <meta name="description" content="Sistema de votación de delegado y subdelegado con detección de empates" />
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- CSS (mismo que antes, mejorado un poquito) -->
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Votación de Delegado/a y Subdelegado/a</h1>
+
+    <!-- ==================== PANTALLA DE VOTACIÓN ==================== -->
+    <div id="screenVotacion">
+      <h2>Turno de votar:</h2>
+      <div id="nombreVotante"></div>
+
+      <p><strong>Elige al candidato/a para delegado/a:</strong></p>
+
+      <div id="candidatos"></div>
+
+      <button id="btnVotar" class="btn-primary">Confirmar voto</button>
+    </div>
+
+    <!-- ==================== PANTALLA DE RESULTADOS ==================== -->
+    <div id="screenResultado" class="oculto">
+      <h2>¡Votación finalizada!</h2>
+      <div id="resultados"></div>
+
+      <!-- Botón que solo aparece si hay empate -->
+      <button id="btnRepetir" class="btn-secondary oculto">
+        Repetir votación (empate detectado)
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Carga de archivos JavaScript -->
+  <script src="alumnos.js"></script>   <!-- Aquí está tu clase Alumno y la lista -->
+  <script src="app.js"></script>    <!-- Lógica completa (versión final) -->
+
+</body>
+</html>
