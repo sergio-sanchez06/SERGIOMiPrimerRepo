@@ -8,6 +8,8 @@ https://www.geeksforgeeks.org/python/matplotlib-tutorial/
 '''
 
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 
 def ejemplo1():
@@ -76,9 +78,107 @@ print("*"*50)
 print("*"*50)
 # ejercicios()
 
+def ejercicio15():
+
+    '''
+    15. Agrega anotaciones (annotations) a un gráfico de línea, marcando el punto máximo con texto y una flecha.
+
+    '''
+
+    x = [1, 2, 3, 4, 5]
+    y = [1, 4, 2, 3, 5]
+    plt.plot(x, y)
+    plt.annotate('Punto máximo', xy=(5, 5), xytext=(6, 6), arrowprops=dict(facecolor='red', shrink=0.05))
+    plt.show()
+
+def ejercicio16():
+    
+    # 16. Crea un gráfico polar con una espiral o una rosa polar.
+    
+    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+    
+    t = np.linspace(0, 2 * np.pi, 100)
+    r = np.sin(4 * t)
+    
+    ax.plot(t, r)
+
+    ax.set_rticks([])
+    ax.set_rlabel_position(-22.5)
+    ax.grid(True)
+
+    plt.show()
+
+def ejercicio17():
+
+    # 17. Usa estilos predefinidos de Matplotlib (como 'ggplot' o 'seaborn') y compara dos gráficos con diferentes estilos.
+    
+    plt.style.use('ggplot')
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+    plt.plot(x, y)
+    plt.show()
+    
+    plt.style.use('seaborn-v0_8')
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+    plt.plot(x, y)
+    plt.show()
+
+def ejercicio18():
+    
+    # 18. Grafica datos de un DataFrame de Pandas (crea uno simple) usando el método .plot().
+    
+    columna_x = np.linspace(0, 10, 100)
+    columna_y = np.sin(columna_x)
+
+    df = pd.DataFrame({
+        'x': columna_x,
+        'y': columna_y
+    })
+    df.plot(x='x', y='y')
+    plt.show()
+
+def ejercicio19():
+    
+    # 19. Crea un gráfico 3D de líneas o superficie usando axes3d.
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+    z = np.cos(x)
+    
+    ax.plot(x, y, z)
+    plt.show()
+
+def ejercicio20():
+    
+    # 20. Guarda un gráfico en diferentes formatos (PNG, PDF, SVG) y ajusta parámetros como dpi y tamaño de figura.
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+    z = np.cos(x)
+    
+    ax.plot(x, y, z)
+
+    plt.savefig('grafico_3d.png', dpi=100)
+    plt.savefig('grafico_3d.pdf', dpi=100)
+    plt.savefig('grafico_3d.svg', dpi=100)
+
+# ejercicio15()
+# ejercicio16()
+# ejercicio17()
+# ejercicio18()
+# ejercicio19()
+ejercicio20()
+
 print("Fin")
 
-'''
+'''pip install
 Puedes usar datos simples (listas o arrays de NumPy) para resolverlos. ¡Intenta implementarlos tú mismo antes de buscar soluciones!
 
 1. Crea un gráfico de línea simple con los puntos x = [1, 2, 3, 4, 5] e y = [1, 4, 2, 3, 5]. Agrega etiquetas a los ejes y un título.
