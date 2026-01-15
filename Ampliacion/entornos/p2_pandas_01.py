@@ -237,7 +237,10 @@ def ejercicio12():
 
     print("\n\n\nEjercicio 11")
 
+    # Dos opciones para manejar los nulos, borrar esos registros o rellenarlos con 0
+
     # df.dropna(subset=["salario"], inplace=True)
+    # df["salario_anual"] = df["salario_anual"].fillna(0)
 
     df["salario_anual"] = df["salario"] * 14 # Los empleados en los indices 3,4,2, tienen NaN en su salario
 
@@ -251,16 +254,18 @@ def ejercicio13():
 
     print("\n\n\nEjercicio 13")
 
-    antiguedad_dias = (dt.datetime.now() - pd.to_datetime(df["fecha_ingreso"])).dt.days
+    fechas = pd.to_datetime(df["fecha_ingreso"])
 
-    df["antiguedad_anios"] = np.random.rand(antiguedad_dias // 365)
+    diferencia = dt.datetime.now() - fechas
+
+    df["antiguedad_anios"] = (diferencia.dt.days / 365.25).round(0).astype(int)
 
     print(df["fecha_ingreso"])
 
     print(df["antiguedad_anios"])
 
 
-# ejercicio13()
+ejercicio13()
 
 def ejercicio14():
 
@@ -277,7 +282,7 @@ def ejercicio14():
     print(df[['edad', 'categoria_edad']])
 
 
-# ejercicio14()
+ejercicio14()
 
 def ejercicio15():
 
@@ -308,12 +313,13 @@ def ejercicio16():
 
     # 16. Rellena los salarios nulos con la media del salario por departamento.
 
-    media_salarios = df["salario"].mean()
+    # Calculamos la media por departamento y la asignamos a cada fila correspondiente
+    df["salario"] = df["salario"].fillna(df.groupby("departamento")["salario"].transform("mean"))
+    
+    # Una vez corregido el salario, recalculamos o rellenamos el salario_anual
+    df["salario_anual"] = df["salario_anual"].fillna(df["salario"] * 14)
 
-    df.fillna({"salario": media_salarios}, inplace=True)
-    df.fillna({"salario_anual": media_salarios}, inplace=True)
-
-    print(df["salario"])
+    print(df[["nombre", "departamento", "salario"]])
 
 ejercicio16()
 
@@ -450,10 +456,10 @@ def ejercicio27():
 
     # 27. Guarda el DataFrame final en CSV y en Excel (dos archivos distintos).
  
-    df.to_excel("dataframe.xlsx", "Dataframe", index=False, float_format="%.2f") # Necesaria la libreria openpyxl para exportarlo a xlsx
+    df.to_excel("dataframe.xlsx", sheet_name="Dataframe", index=False, float_format="%.2f") # Necesaria la libreria openpyxl para exportarlo a xlsx
     df.to_csv("dataframe.csv", ";", index=False, float_format="%.2f")
 
-# ejercicio27()
+ejercicio27()
 
 # print("Dataframe original\n", df)
 
@@ -465,7 +471,7 @@ def ejercicio28():
 
     print("Dataframe nuevo \n", df)
 
-# ejercicio28()
+ejercicio28()
 
 def ejercicio29():
 

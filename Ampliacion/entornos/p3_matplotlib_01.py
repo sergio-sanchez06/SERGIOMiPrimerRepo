@@ -78,6 +78,142 @@ print("*"*50)
 print("*"*50)
 # ejercicios()
 
+def ejercicio1():
+    print("Ejercicio 1: Línea simple con etiquetas")
+    x = [1, 2, 3, 4, 5]
+    y = [1, 4, 2, 3, 5]
+    plt.plot(x, y)
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.title('Gráfico de Línea Simple')
+    plt.show()
+
+def ejercicio2():
+    print("Ejercicio 2: Dos líneas (x² y x³)")
+    x = np.linspace(0, 10, 50)
+    plt.plot(x, x**2, label='x²', color='blue')
+    plt.plot(x, x**3, label='x³', color='green')
+    plt.legend()
+    plt.title('Comparación de Potencias')
+    plt.show()
+
+def ejercicio3():
+    print("Ejercicio 3: Seno y Coseno con Grid")
+    x = np.linspace(0, 2 * np.pi, 100)
+    plt.plot(x, np.sin(x), label='sin(x)')
+    plt.plot(x, np.cos(x), label='cos(x)')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+def ejercicio4():
+    print("Ejercicio 4: Dispersión aleatoria")
+    x = np.random.rand(100)
+    y = np.random.rand(100)
+    plt.scatter(x, y, alpha=0.5, c='purple')
+    plt.title('Scatter Plot Aleatorio')
+    plt.show()
+
+def ejercicio5():
+    print("Ejercicio 5: Barras de colores")
+    cats = ["A", "B", "C", "D", "E"]
+    vals = [10, 24, 15, 30, 12]
+    colores = ['red', 'blue', 'green', 'orange', 'cyan']
+    plt.bar(cats, vals, color=colores)
+    plt.title('Gráfico de Barras')
+    plt.show()
+
+def ejercicio6():
+    print("Ejercicio 6: Histograma normal")
+    data = np.random.normal(0, 1, 1000)
+    plt.hist(data, bins=30, edgecolor='black', color='skyblue')
+    plt.title('Distribución Normal')
+    plt.show()
+
+def ejercicio7():
+    print("Ejercicio 7: Pie chart explotado")
+    proporciones = [20, 30, 25, 25]
+    etiquetas = ["Grupo A", "Grupo B", "Grupo C", "Grupo D"]
+    explota = (0, 0.1, 0, 0) # Explota el Grupo B
+    plt.pie(proporciones, labels=etiquetas, explode=explota, autopct='%1.1f%%')
+    plt.title('Proporciones por Grupo')
+    plt.show()
+
+def ejercicio8():
+    print("Ejercicio 8: Subplots 2x2")
+    fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+    
+    # Línea
+    axs[0, 0].plot([1, 2, 3], [1, 2, 3])
+    axs[0, 0].set_title('Línea')
+    
+    # Barras
+    axs[0, 1].bar(['X', 'Y'], [5, 10])
+    axs[0, 1].set_title('Barras')
+    
+    # Dispersión
+    axs[1, 0].scatter(np.random.rand(10), np.random.rand(10))
+    axs[1, 0].set_title('Dispersión')
+    
+    # Histograma
+    axs[1, 1].hist(np.random.randn(100))
+    axs[1, 1].set_title('Histograma')
+    
+    plt.tight_layout()
+    plt.show()
+
+def ejercicio9():
+    print("Ejercicio 9: Marcadores y línea punteada")
+    x = np.arange(10)
+    y = x * 2
+    plt.plot(x, y, 'ro--', label='Datos') # r=rojo, o=círculo, --=punteado
+    plt.legend()
+    plt.show()
+
+def ejercicio10():
+    print("Ejercicio 10: Barras apiladas")
+    labels = ['G1', 'G2', 'G3']
+    serie1 = [10, 20, 15]
+    serie2 = [5, 15, 10]
+    plt.bar(labels, serie1, label='Serie 1')
+    plt.bar(labels, serie2, bottom=serie1, label='Serie 2')
+    plt.legend()
+    plt.show()
+
+def ejercicio11():
+    print("Ejercicio 11: Gráfico de áreas apiladas")
+    x = range(1, 6)
+    y = [ [1, 4, 6, 8, 9], [2, 2, 7, 10, 12], [2, 8, 5, 10, 6] ]
+    plt.stackplot(x, y, labels=['A', 'B', 'C'])
+    plt.legend(loc='upper left')
+    plt.show()
+
+def ejercicio12():
+    print("Ejercicio 12: Boxplot")
+    datos = [np.random.normal(0, std, 100) for std in range(1, 4)]
+    plt.boxplot(datos, patch_artist=True)
+    plt.title('Boxplot de Varias Distribuciones')
+    plt.show()
+
+def ejercicio13():
+    print("Ejercicio 13: Gráfico de contorno")
+    x = np.linspace(-3, 3, 100)
+    y = np.linspace(-3, 3, 100)
+    X, Y = np.meshgrid(x, y)
+    Z = np.sin(X) + np.cos(Y)
+    cp = plt.contourf(X, Y, Z)
+    plt.colorbar(cp)
+    plt.title('Contorno: sin(x) + cos(y)')
+    plt.show()
+
+def ejercicio14():
+    print("Ejercicio 14: Violin Plot")
+    datos = [np.random.normal(0, std, 100) for std in range(1, 4)]
+    plt.violinplot(datos)
+    plt.title('Violin Plot')
+    plt.show()
+
+
 def ejercicio15():
 
     '''
@@ -169,11 +305,25 @@ def ejercicio20():
     plt.savefig('grafico_3d.pdf', dpi=100)
     plt.savefig('grafico_3d.svg', dpi=100)
 
-# ejercicio15()
-# ejercicio16()
-# ejercicio17()
-# ejercicio18()
-# ejercicio19()
+ejercicio1()
+ejercicio2()
+ejercicio3()
+ejercicio4()
+ejercicio5()
+ejercicio6()
+ejercicio7()
+ejercicio8()
+ejercicio9()
+ejercicio10()
+ejercicio11()
+ejercicio12()
+ejercicio13()
+ejercicio14()
+ejercicio15()
+ejercicio16()
+ejercicio17()
+ejercicio18()
+ejercicio19()
 ejercicio20()
 
 print("Fin")

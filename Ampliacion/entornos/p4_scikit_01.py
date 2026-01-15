@@ -7,6 +7,23 @@ https://scikit-learn.org/1.4/tutorial/index.html
 https://www.tutorialspoint.com/scikit_learn/index.htm
 
 '''
+
+from sklearn import datasets
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, mean_squared_error
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
 def ejem01():
     from sklearn.datasets import load_iris
     from sklearn.model_selection import train_test_split
@@ -163,343 +180,132 @@ print("---------")
 ejer()
 print("---------")
 
+# 1. Clasificación básica en Iris
 def ejercicio1():
-
-    from sklearn import datasets
-    from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-    from sklearn.metrics import accuracy_score, mean_squared_error, classification_report
-    from sklearn.linear_model import LogisticRegression, LinearRegression
-
-    # Cargar el dataset iris
+    print("EJERCICIO 1: Regresión Logística en Iris")
     iris = datasets.load_iris()
-    X = iris.data
-    y = iris.target
+    X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2, random_state=42)
+    model = LogisticRegression(max_iter=200)
+    model.fit(X_train, y_train)
+    print(f"Precisión en test: {model.score(X_test, y_test):.2f}\n")
 
-    # Dividir en conjunto de entrenamiento y prueba 80/20
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Crear y entrenar el clasificador de árbol de decisión
-    clf = LogisticRegression(random_state=42)
-    clf.fit(X_train, y_train)
-
-    # Realizar predicciones
-    y_pred = clf.predict(X_test)
-
-    # Calcular métricas
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f'Precision: {precision:.2f}')
-    print(f'Recall: {recall:.2f}')
-
-ejercicio1()
-
+# 2. Comparación de modelos en Digits
 def ejercicio2():
-
-    # Carga el dataset Digits (imágenes de números). Prueba KNN, SVM y Random Forest. Compara sus precisiones con train_test_split y accuracy_score.
-    
-    from sklearn import datasets
-    
+    print("EJERCICIO 2: KNN vs SVM vs Random Forest (Digits)")
     digits = datasets.load_digits()
-    X = digits.data
-    y = digits.target
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.2)
+    
+    modelos = [KNeighborsClassifier(), SVC(), RandomForestClassifier()]
+    for m in modelos:
+        m.fit(X_train, y_train)
+        score = accuracy_score(y_test, m.predict(X_test))
+        print(f"{m.__class__.__name__} Accuracy: {score:.2f}")
+    print("-" * 30)
 
-    # Dividir en conjunto de entrenamiento y prueba 80/20
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Crear y entrenar el clasificador de árbol de decisión
-    clf = LogisticRegression(random_state=42)
-    clf.fit(X_train, y_train)
-
-    # Realizar predicciones
-    y_pred = clf.predict(X_test)
-
-    # Calcular métricas
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f'Precision: {precision:.2f}')
-    print(f'Recall: {recall:.2f}')
-
-ejercicio2()
-
+# 3. Validación cruzada en Diabetes
 def ejercicio3():
-
-    # Carga el dataset Diabetes (regresión). Usa LinearRegression y calcula el MSE con cross_val_score (5 folds).
-    
-    from sklearn import datasets
-    
+    print("EJERCICIO 3: Cross Validation (Diabetes)")
     diabetes = datasets.load_diabetes()
-    X = diabetes.data
-    y = diabetes.target
+    model = LinearRegression()
+    # cv=5 indica 5 grupos (folds)
+    scores = cross_val_score(model, diabetes.data, diabetes.target, cv=5, scoring='neg_mean_squared_error')
+    mse_medio = -scores.mean()
+    print(f"MSE medio tras 5-fold CV: {mse_medio:.2f}\n")
 
-    # Dividir en conjunto de entrenamiento y prueba 80/20
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Crear y entrenar el clasificador de árbol de decisión
-    clf = LogisticRegression(random_state=42)
-    clf.fit(X_train, y_train)
-
-    # Realizar predicciones
-    y_pred = clf.predict(X_test)
-
-    # Calcular métricas
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f'Precision: {precision:.2f}')
-    print(f'Recall: {recall:.2f}')
-
-ejercicio3()
-
+# 4. Árbol de decisión en Iris
 def ejercicio4():
-
-    # Entrena un DecisionTreeClassifier en Iris. Visualiza el árbol (usa plot_tree si tienes Graphviz) y evalúa la precisión.
-    
-    from sklearn import datasets
-    from sklearn.tree import DecisionTreeClassifier
-    from sklearn.metrics import accuracy_score
-    
-    # Cargar el dataset
+    print("EJERCICIO 4: Árbol de Decisión y Visualización")
     iris = datasets.load_iris()
-    X = iris.data
-    y = iris.target
-    
-    # Dividir en conjunto de entrenamiento y prueba 80/20
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Crear y entrenar el clasificador de árbol de decisión
-    clf = DecisionTreeClassifier(random_state=42)
-    clf.fit(X_train, y_train)
-    
-    # Realizar predicciones
-    y_pred = clf.predict(X_test)
-    
-    # Calcular métricas
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-    
-    print(f'Accuracy: {accuracy:.2f}')
-    print(f'Precision: {precision:.2f}')
-    print(f'Recall: {recall:.2f}')
-    
-    # Visualizar el árbol
-    plot_tree(clf)
-    plt.show()  
+    clf = DecisionTreeClassifier(max_depth=3, random_state=42)
+    clf.fit(iris.data, iris.target)
+    plt.figure(figsize=(12,8))
+    plot_tree(clf, filled=True, feature_names=iris.feature_names, class_names=iris.target_names)
+    plt.title("Estructura del Árbol de Decisión (Iris)")
+    plt.show()
 
-ejercicio4()
-
+# 5. Ajuste de hiperparámetros con GridSearchCV
 def ejercicio5():
-
-    # Usa SVC en el dataset Iris. Busca los mejores parámetros (C y kernel) con GridSearchCV y muestra el mejor score.
-
-    from sklearn.datasets import load_iris
-    from sklearn.model_selection import GridSearchCV, train_test_split
-    from sklearn.svm import SVC
-
-    # 1. Cargar datos
-    iris = load_iris()
-    X, y = iris.data, iris.target
-
-    # 2. Definir el espacio de búsqueda (parámetros a probar)
-    # C: Parámetro de regularización
-    # kernel: Tipo de función de base para la frontera de decisión
-    param_grid = {
-        'C': [0.1, 1, 10, 100],
-        'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
-        'gamma': ['scale', 'auto']  # Opcional, pero influye mucho en rbf
-    }
-
-    # 3. Configurar GridSearchCV
-    # cv=5 significa validación cruzada de 5 pliegues
-    grid_search = GridSearchCV(SVC(), param_grid, cv=5, scoring='accuracy')
-
-    # 4. Entrenar con la búsqueda de malla
-    grid_search.fit(X, y)
-
-    # 5. Resultados
-    print(f"Mejores parámetros encontrados: {grid_search.best_params_}")
-    print(f"Mejor score (exactitud): {grid_search.best_score_:.4f}")
-
-ejercicio5()
-
-def ejercicio6():
-
-    # Carga Iris (solo características, sin etiquetas). Aplica KMeans con 3 clusters. Compara los clusters predichos con las etiquetas reales.
-
-    import matplotlib.pyplot as plt
-    from sklearn.datasets import load_iris
-    from sklearn.cluster import KMeans
-    import pandas as pd
-
-    # 1. Cargar el dataset
-    iris = load_iris()
-    X = iris.data  # Solo características (longitud/ancho de sépalo y pétalo)
-    y_real = iris.target  # Etiquetas reales para la comparación final
-
-    # 2. Aplicar KMeans con 3 clusters
-    # Definimos random_state para que los resultados sean reproducibles
-    kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
-    y_kmeans = kmeans.fit_predict(X)
-
-    # 3. Comparación visual
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-
-    # Gráfico de las etiquetas reales
-    ax1.scatter(X[:, 2], X[:, 3], c=y_real, cmap='viridis')
-    ax1.set_title('Etiquetas Reales (Especies)')
-    ax1.set_xlabel('Longitud del pétalo')
-    ax1.set_ylabel('Ancho del pétalo')
-
-    # Gráfico de los clusters de KMeans
-    ax2.scatter(X[:, 2], X[:, 3], c=y_kmeans, cmap='plasma')
-    ax2.set_title('Clusters Predichos (K-Means)')
-    ax2.set_xlabel('Longitud del pétalo')
-    ax2.set_ylabel('Ancho del pétalo')
-
-    plt.show()
-
-    # 4. Tabla de contingencia para ver la precisión
-    df_comparacion = pd.DataFrame({'Real': y_real, 'KMeans': y_kmeans})
-    print("Tabla de contingencia (Cruce de etiquetas):")
-    print(pd.crosstab(df_comparacion['Real'], df_comparacion['KMeans']))
-
-ejercicio6()
-
-def ejercicio7():
-
-    # Aplica PCA al dataset Digits para reducir a 2 componentes. Visualiza los datos en un scatter plot coloreado por clase.
-
-    import matplotlib.pyplot as plt
-    from sklearn.datasets import load_digits
-    from sklearn.decomposition import PCA
-    import pandas as pd
-
-    # 1. Cargar el dataset
-    digits = load_digits()
-    X = digits.data
-    y = digits.target
-
-    # 2. Aplicar PCA para reducir a 2 componentes
-    pca = PCA(n_components=2)
-    X_pca = pca.fit_transform(X)
-
-    # 3. Visualización
-    plt.figure(figsize=(10, 8))
-    scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='tab10', alpha=0.7, edgecolors='none')
-
-    # Añadir detalles al gráfico
-    plt.colorbar(scatter, label='Dígito (Clase)')
-    plt.title('PCA del Dataset Digits (Reducción a 2D)')
-    plt.xlabel('Componente Principal 1')
-    plt.ylabel('Componente Principal 2')
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.show()
-
-ejercicio7()
-
-def ejercicio8():
-
-    # Entrena un RandomForestClassifier en Iris o Breast Cancer (datasets.load_breast_cancer()). Muestra la importancia de las características con feature_importances_.
-    
-    from sklearn import datasets
-    from sklearn.ensemble import RandomForestClassifier
-    import matplotlib.pyplot as plt
-    
-    # Cargar el dataset
+    print("EJERCICIO 5: GridSearchCV con SVC")
     iris = datasets.load_iris()
-    X = iris.data
-    y = iris.target
+    parametros = {'C': [0.1, 1, 10, 100], 'kernel': ['linear', 'rbf']}
+    grid = GridSearchCV(SVC(), parametros, cv=5)
+    grid.fit(iris.data, iris.target)
+    print(f"Mejores parámetros: {grid.best_params_}")
+    print(f"Mejor precisión obtenida: {grid.best_score_:.2f}\n")
+
+# 6. Clustering con KMeans
+def ejercicio6():
+    print("EJERCICIO 6: KMeans Clustering (Iris sin etiquetas)")
+    iris = datasets.load_iris()
+    kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+    clusters = kmeans.fit_predict(iris.data)
+    # Comparación visual rápida
+    print("Primeros 10 clusters predichos:", clusters[:10])
+    print("Primeras 10 etiquetas reales:   ", iris.target[:10], "\n")
+
+# 7. Reducción de dimensionalidad con PCA
+def ejercicio7():
+    print("EJERCICIO 7: PCA en Digits (de 64 a 2 dimensiones)")
+    digits = datasets.load_digits()
+    pca = PCA(n_components=2)
+    X_pca = pca.fit_transform(digits.data)
     
-    # Entrenar el modelo
-    clf = RandomForestClassifier(random_state=42)
-    clf.fit(X, y)
-    
-    # Mostrar importancia de características
-    importances = clf.feature_importances_
-    
-    # Visualizar
-    plt.figure(figsize=(10, 6))
-    plt.barh(iris.feature_names, importances)
-    plt.xlabel('Importancia')
-    plt.title('Importancia de las características')
+    plt.figure(figsize=(8,6))
+    plt.scatter(X_pca[:, 0], X_pca[:, 1], c=digits.target, cmap='tab10', alpha=0.6)
+    plt.colorbar(label='Dígito')
+    plt.title("Visualización de Digits con PCA")
+    plt.xlabel("Componente Principal 1")
+    plt.ylabel("Componente Principal 2")
     plt.show()
 
-ejercicio8()
+# 8. Random Forest y importancia de características
+def ejercicio8():
+    print("EJERCICIO 8: Importancia de características (Breast Cancer)")
+    cancer = datasets.load_breast_cancer()
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf.fit(cancer.data, cancer.target)
+    
+    importancias = pd.Series(rf.feature_importances_, index=cancer.feature_names).sort_values(ascending=False)
+    print("Top 5 características que más influyen en el modelo:")
+    print(importancias.head(5), "\n")
 
+# 9. Pipeline completo
 def ejercicio9():
-
-    # Crea un Pipeline con StandardScaler y LogisticRegression. Aplícalo al dataset Wine (datasets.load_wine()) y evalúa con cross_val_score.
-
-    from sklearn import datasets
-    from sklearn.pipeline import Pipeline
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.model_selection import cross_val_score
-    
-    # Cargar el dataset
+    print("EJERCICIO 9: Pipeline (Escalado + Regresión)")
     wine = datasets.load_wine()
-    X = wine.data
-    y = wine.target
-    
-    # Crear el pipeline
-    pipe = Pipeline([
+    mi_pipeline = Pipeline([
         ('scaler', StandardScaler()),
         ('classifier', LogisticRegression())
     ])
-    
-    # Evaluar con cross_val_score
-    scores = cross_val_score(pipe, X, y, cv=5)
-    
-    # Imprimir resultados
-    print(f"Scores: {scores}")
-    print(f"Media de scores: {scores.mean()}")
+    res = cross_val_score(mi_pipeline, wine.data, wine.target, cv=5)
+    print(f"Precisión media con Pipeline: {res.mean():.2f}\n")
 
-ejercicio9()
-
+# 10. Regresión con ensemble
 def ejercicio10():
+    print("EJERCICIO 10: Linear vs RandomForest (California Housing)")
+    housing = datasets.fetch_california_housing()
+    X_train, X_test, y_train, y_test = train_test_split(housing.data, housing.target, test_size=0.2, random_state=42)
+    
+    # Modelos
+    reg_lin = LinearRegression().fit(X_train, y_train)
+    reg_rf = RandomForestRegressor(n_estimators=50, random_state=42).fit(X_train, y_train)
+    
+    # Evaluación
+    mse_lin = mean_squared_error(y_test, reg_lin.predict(X_test))
+    mse_rf = mean_squared_error(y_test, reg_rf.predict(X_test))
+    
+    print(f"MSE Regresión Lineal: {mse_lin:.2f}")
+    print(f"MSE Random Forest:    {mse_rf:.2f}")
 
-    # Usa el dataset Boston (o California Housing en versiones nuevas: fetch_california_housing). Compara LinearRegression con RandomForestRegressor en términos de MSE.
-
-    from sklearn import datasets
-    from sklearn.model_selection import train_test_split
-    from sklearn.linear_model import LinearRegression
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.metrics import mean_squared_error
-    
-    # Cargar el dataset
-    boston = datasets.load_boston()
-    X = boston.data
-    y = boston.target
-    
-    # Dividir en conjunto de entrenamiento y prueba
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Entrenar modelos
-    lr = LinearRegression()
-    rf = RandomForestRegressor(n_estimators=100, random_state=42)
-    
-    lr.fit(X_train, y_train)
-    rf.fit(X_train, y_train)
-    
-    # Predecir
-    y_pred_lr = lr.predict(X_test)
-    y_pred_rf = rf.predict(X_test)
-    
-    # Calcular MSE
-    mse_lr = mean_squared_error(y_test, y_pred_lr)
-    mse_rf = mean_squared_error(y_test, y_pred_rf)
-    
-    print(f"MSE LinearRegression: {mse_lr}")
-    print(f"MSE RandomForestRegressor: {mse_rf}")
-
+ejercicio1()
+ejercicio2()
+ejercicio3()
+ejercicio4()
+ejercicio5()
+ejercicio6()
+ejercicio7()
+ejercicio8()
+ejercicio9()
 ejercicio10()
 
 print("Fin")

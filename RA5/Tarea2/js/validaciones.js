@@ -1,113 +1,128 @@
-// js/validaciones.js
+// Expresión regular para validar emails con formato estándar
+const REGEXP_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-// Expresiones regulares obligatorias
-const REGEXP_EMAIL = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // Literal
-const REGEXP_MATRICULA = new RegExp(/^\d{4}\s?[A-Z]{3}$/); // Constructor
-const REGEXP_PASS = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/; // Mín. 8 chars, mayús, minús, número
+// Expresión regular para validar matrículas españolas (4 números + 3 letras)
+const REGEXP_MATRICULA = new RegExp(/^\d{4}\s?[A-Z]{3}$/);
 
-/**
- * Marca visualmente un campo como correcto o incorrecto.
- * @param {HTMLElement} element - El elemento del formulario.
- * @param {boolean} isValid - True si es válido, False si es inválido.
- */
+// Expresión regular para validar contraseñas seguras:
+// mínimo 8 caracteres, al menos una minúscula, una mayúscula y un número
+const REGEXP_PASS = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+
 function marcarCampo(element, isValid) {
-    element.classList.remove('error', 'ok');
-    if (isValid) {
-        element.classList.add('ok');
-    } else {
-        element.classList.add('error');
-    }
+  // Limpia clases previas de validación
+  element.classList.remove("error", "ok");
+
+  // Marca el campo como válido o inválido
+  if (isValid) {
+    element.classList.add("ok");
+  } else {
+    element.classList.add("error");
+  }
 }
 
-/**
- * Valida un campo específico y marca el resultado.
- * @param {HTMLElement} campo - El elemento del formulario a validar.
- * @returns {boolean} - True si el campo es válido, False en caso contrario.
- */
 function validarCampo(campo) {
-    let isValid = true;
-    const value = campo.value.trim();
-    const id = campo.id;
+  let isValid = true;
+  const value = campo.value.trim(); // Elimina espacios al inicio y final
+  const id = campo.id; // Obtiene el id del campo
 
-    if (campo.required && value === '') {
-        isValid = false;
-    } else if (id === 'email') {
-        isValid = REGEXP_EMAIL.test(value);
-    } else if (id === 'matricula') {
-        isValid = REGEXP_MATRICULA.test(value.toUpperCase()); // Convertir a mayúsculas para la validación
-    } else if (id === 'password') {
-        isValid = REGEXP_PASS.test(value);
-    } else if (id === 'telefono') {
-        isValid = /^\d{9}$/.test(value); // Teléfono numérico de 9 dígitos
-    } else if (id === 'provincia') {
-        // Validar que no sea la opción inicial (selectedIndex == 0)
-        isValid = campo.selectedIndex !== 0;
-    } else if (id === 'condiciones') {
-        // Validar el checkbox de condiciones (obligatorio)
-        isValid = campo.checked;
-    }
+  // Validación según el tipo de campo
+  if (campo.required && value === "") {
+    // Si es obligatorio y está vacío → inválido
+    isValid = false;
+  } else if (id === "email") {
+    isValid = REGEXP_EMAIL.test(value);
+  } else if (id === "matricula") {
+    // Se pasa a mayúsculas antes de validar
+    isValid = REGEXP_MATRICULA.test(value.toUpperCase());
+  } else if (id === "password") {
+    isValid = REGEXP_PASS.test(value);
+  } else if (id === "telefono") {
+    // Teléfono español de 9 dígitos
+    isValid = /^\d{9}$/.test(value);
+  } else if (id === "provincia") {
+    // Debe seleccionarse una opción distinta a la primera
+    isValid = campo.selectedIndex !== 0;
+  } else if (id === "condiciones") {
+    // Checkbox debe estar marcado
+    isValid = campo.checked;
+  }
 
-    marcarCampo(campo, isValid);
-    return isValid;
+  // Marca visualmente el campo según su validez
+  marcarCampo(campo, isValid);
+  return isValid;
 }
 
-/**
- * Función que realiza la validación de todo el formulario.
- * @param {HTMLFormElement} form - El elemento formulario.
- * @returns {boolean} - True si todo es válido, False si hay errores.
- */
 function validarFormulario(form) {
-    // 1. Limpieza inicial de errores
-    limpiarErrores(form);
+  // Limpia errores previos
+  limpiarErrores(form);
 
-    let isFormValid = true;
-    let firstErrorField = null; // Para enfocar el primer error
+  let isFormValid = true;
+  let firstErrorField = null; // Variable para almacenar el primer campo con error
 
-    // 2. Validación de todos los elementos requeridos y con validación específica
-    for (const element of form.elements) {
-        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
-            const needsValidation = element.required || ['email', 'matricula', 'password', 'telefono', 'provincia', 'condiciones'].includes(element.id);
-            if (needsValidation) {
-                const isValid = validarCampo(element);
-                if (!isValid) {
-                    isFormValid = false;
-                    if (!firstErrorField) {
-                        firstErrorField = element;
-                    }
-                }
-            }
+  // Recorre todos los elementos del formulario
+  for (const element of form.elements) {
+    // Solo valida inputs, textareas y selects
+    if (
+      element.tagName === "INPUT" ||
+      element.tagName === "TEXTAREA" ||
+      element.tagName === "SELECT"
+    ) {
+      // Determina si el campo necesita validación
+      const needsValidation =
+        element.required ||
+        [
+          "email",
+          "matricula",
+          "password",
+          "telefono",
+          "provincia",
+          "condiciones",
+        ].includes(element.id);
+
+      if (needsValidation) {
+        const isValid = validarCampo(element);
+
+        // Si no es válido, se registra
+        if (!isValid) {
+          isFormValid = false;
+          if (!firstErrorField) {
+            firstErrorField = element; // Guarda el primer campo con error
+          }
         }
+      }
     }
+  }
 
-    // 3. Validación de coherencia de contraseñas
-    const pass = document.getElementById('password');
-    const repeatPass = document.getElementById('repeat-password');
-    if (pass && repeatPass) {
-        const arePasswordsCoherent = pass.value === repeatPass.value && REGEXP_PASS.test(pass.value);
-        marcarCampo(repeatPass, arePasswordsCoherent);
-        if (!arePasswordsCoherent) {
-            isFormValid = false;
-            if (!firstErrorField) {
-                 // Si la validación de 'password' pasó, pero la de coherencia falló, enfocar repetición.
-                firstErrorField = repeatPass;
-            }
-        }
+  // Validación para comprobar que la contraseña y la contraseña repetida coinciden
+  const pass = document.getElementById("password");
+  const repeatPass = document.getElementById("repeat-password");
+
+  if (pass && repeatPass) {
+    const arePasswordsCoherent =
+      pass.value === repeatPass.value && REGEXP_PASS.test(pass.value);
+
+    // Marca el campo de repetir contraseña
+    marcarCampo(repeatPass, arePasswordsCoherent);
+
+    if (!arePasswordsCoherent) {
+      isFormValid = false;
+      if (!firstErrorField) {
+        firstErrorField = repeatPass;
+      }
     }
+  }
 
-    // 4. Enfocar el primer campo con error
-    if (firstErrorField) {
-        firstErrorField.focus();
-    }
+  // Se pone el cursor en el primer campo con error
+  if (firstErrorField) {
+    firstErrorField.focus();
+  }
 
-    return isFormValid;
+  return isFormValid;
 }
 
-/**
- * Recorre form.elements para limpiar las clases de error/ok.
- * @param {HTMLFormElement} form - El elemento formulario.
- */
 function limpiarErrores(form) {
-    for (const element of form.elements) {
-        element.classList.remove('error', 'ok');
-    }
+  // Elimina clases de validación de todos los campos
+  for (const element of form.elements) {
+    element.classList.remove("error", "ok");
+  }
 }

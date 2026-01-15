@@ -1,4 +1,3 @@
-from entorno1.Lib.site-packages.numpy.conftest import dtype
 import numpy as np
 import time
 
@@ -103,244 +102,229 @@ print("Version:",np.__version__)
 
 print("Fin")
 
+import numpy as np
+import time
+
 def ejercicio1():
-
-    print("EJERCICIO 1")
-    print("-"*25)
-
+    print("EJERCICIO 1: Array 1D del 0 al 9")
     a1 = np.arange(10)
     print(a1)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio2():
-    print("EJERCICIO 2")
-    print("-"*25)
-
-    a2 = np.zeros((3,4))
+    print("EJERCICIO 2: Array de ceros (3, 4)")
+    a2 = np.zeros((3, 4))
     print(a2)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio3():
-
-    print("EJERCICIO 3")
-    print("-"*25)
-    a3 = np.ones((5,2), dtype=np.int32)
+    print("EJERCICIO 3: Array de unos (5, 2) int32")
+    a3 = np.ones((5, 2), dtype=np.int32)
     print(a3)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio4():
-
-    print("EJERCICIO 4")
-    print("-"*25)
-    a4 = np.linspace(0,100,21)
+    print("EJERCICIO 4: 21 elementos entre 0 y 100")
+    a4 = np.linspace(0, 100, 21)
     print(a4)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio5():
-    print("EJERCICIO 5")
-    print("-"*25)
-    a5 = np.random.random((3,4))
+    print("EJERCICIO 5: 50 valores aleatorios entre 0 y 1")
+    a5 = np.random.random(50)
     print(a5)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio6():
-    print("EJERCICIO 6")
-    print("-"*25)
-    a6 = np.array([1,2,3,4,5])
-    a6 = a6.astype(np.float64)
-    print(a6)
-    print("-"*25)
+    print("EJERCICIO 6: Convertir a float64")
+    arr = np.array([1, 2, 3, 4, 5])
+    a6 = arr.astype(np.float64)
+    print(a6, a6.dtype)
+    print("-" * 25)
 
 def ejercicio7():
-    print("EJERCICIO 7")
-    print("-"*25)
-    a7 = np.identity(6)
+    print("EJERCICIO 7: Matriz identidad 6x6")
+    a7 = np.eye(6)
     print(a7)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio8():
-    print("EJERCICIO 8")
-    print("-"*25)
-    a8 = np.arange(10,50)
+    print("EJERCICIO 8: Array del 10 al 49")
+    a8 = np.arange(10, 50)
     print(a8)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio9():
-    print("EJERCICIO 9")
-    print("-"*25)
-    a9 = np.arange(10,50)
-    a9 = np.flip(a9)
+    print("EJERCICIO 9: Invertir con np.flip")
+    a8 = np.arange(10, 50)
+    a9 = np.flip(a8)
     print(a9)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio10():
-    print("EJERCICIO 10")
-    print("-"*25)
-    a10 = np.array([0,2,0,5,0,8,0])
-    a10 = np.nonzero(a10)
+    print("EJERCICIO 10: Índices de elementos no cero")
+    arr = np.array([0, 2, 0, 5, 0, 8, 0])
+    a10 = np.nonzero(arr)
     print(a10)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio11():
-    print("EJERCICIO 11")
-    print("-"*25)
-    a11 = np.arange(12)
-    a11 = a11.reshape((3,4))
+    print("EJERCICIO 11: Reshape a (3, 4)")
+    a11 = np.arange(12).reshape((3, 4))
     print(a11)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio12():
-    print("EJERCICIO 12")
-    print("-"*25)
-    a12 = np.array([[1,2,3],[4,5,6],[7,8,9]])
-    a12 = a12[1:2,1:2]
-    print(a12)
-    print("-"*25)
+    print("EJERCICIO 12: Matriz 5x5 y submatriz central 3x3")
+    m = np.arange(1, 26).reshape(5, 5)
+    sub = m[1:4, 1:4]
+    print("Original:\n", m)
+    print("Central 3x3:\n", sub)
+    print("-" * 25)
 
 def ejercicio13():
-    print("EJERCICIO 13")
-    print("-"*25)
-    a13 = np.zeros((4,4))
-    a13[1:2,1:2] = 1
+    print("EJERCICIO 13: Marco de 1s en array de ceros")
+    a13 = np.zeros((4, 4))
+    a13[0, :] = 1; a13[-1, :] = 1
+    a13[:, 0] = 1; a13[:, -1] = 1
     print(a13)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio14():
-    print("EJERCICIO 14")
-    print("-"*25)
-    a14 = np.zeros((8,8))
-    a14[1::2,::2] = 1
-    a14[::2,1::2] = 1
+    print("EJERCICIO 14: Tablero de ajedrez 8x8")
+    a14 = np.zeros((8, 8), dtype=int)
+    a14[1::2, ::2] = 1
+    a14[::2, 1::2] = 1
     print(a14)
-    print("-"*25)
+    print("-" * 25)
 
 def ejercicio15():
-    print("EJERCICIO 15")
-    print("-"*25)
-    a15 = np.array([1,2,3])
-    a15 = np.concatenate((a15,a15))
-    print(a15)
-    print("-"*25)
+    print("EJERCICIO 15: Concatenación H y V")
+    a = np.array([1, 2, 3])
+    b = np.array([4, 5, 6])
+    h = np.concatenate((a, b)) # Horizontal (1D)
+    v = np.vstack((a, b))      # Vertical
+    print("Horizontal:", h)
+    print("Vertical:\n", v)
+    print("-" * 25)
 
 def ejercicio16():
-    print("EJERCICIO 16")
-    print("-"*25)
-    a16 = np.array([1,2,3,4,5])
-    a16 = np.where(a16%2==0,a16+5,a16-3)
-    print(a16)
-    print("-"*25)
+    print("EJERCICIO 16: Pares +5, Impares -3")
+    arr = np.array([1, 2, 3, 4, 5, 6])
+    res = np.where(arr % 2 == 0, arr + 5, arr - 3)
+    print(res)
+    print("-" * 25)
 
 def ejercicio17():
-    print("EJERCICIO 17")
-    print("-"*25)
-    a17 = np.array([1,2,3,4,5])
-    a17 = np.where(a17%2==0,a17+5,a17-3)
-    print(a17)
-    print("-"*25)
+    print("EJERCICIO 17: Clip valores (10, 30)")
+    arr = np.random.randint(0, 51, 100)
+    res = np.clip(arr, 10, 30)
+    print(res)
+    print("-" * 25)
 
 def ejercicio18():
-    print("EJERCICIO 18")
-    print("-"*25)
-    a18 = np.array([1,2,3,4,5])
-    a18 = np.where(a18%2==0,a18*5,a18*3)
-    print(a18)
-    print("-"*25)
+    print("EJERCICIO 18: Media, Mediana y Desviación")
+    arr = np.random.normal(0, 1, 1000)
+    print(f"Media: {np.mean(arr):.2f}, Mediana: {np.median(arr):.2f}, Std: {np.std(arr):.2f}")
+    print("-" * 25)
 
 def ejercicio19():
-    print("EJERCICIO 19")
-    print("-"*25)
-    a19 = np.array([1,2,3,4,5])
-    a19 = np.where(a19%2==0,a19+5,a19-3)
-    print(a19)
-    print("-"*25)
+    print("EJERCICIO 19: Normalización")
+    arr = np.array([10, 20, 30, 40, 50])
+    norm = (arr - np.mean(arr)) / np.std(arr)
+    print(norm)
+    print("-" * 25)
 
 def ejercicio20():
-    print("EJERCICIO 20")
-    print("-"*25)
-    a20 = np.array([1,2,3,4,5])
-    a20 = np.where(a20%2==0,a20+5,a20-3)
-    print(a20)
-    print("-"*25)
+    print("EJERCICIO 20: Máximo y posición por fila")
+    m = np.random.random((6, 6))
+    max_vals = np.max(m, axis=1)
+    posiciones = np.argmax(m, axis=1)
+    print("Maximos:", max_vals)
+    print("Posiciones:", posiciones)
+    print("-" * 25)
 
 def ejercicio21():
-    print("EJERCICIO 21")
-    print("-"*25)
-    a21 = np.array([1,2,3,4,5])
-    a21 = np.where(a21%2==0,a21+5,a21-3)
-    print(a21)
-    print("-"*25)
+    print("EJERCICIO 21: Broadcasting suma vector a matriz")
+    m = np.zeros((10, 5))
+    v = np.array([1, 2, 3, 4, 5])
+    res = m + v
+    print(res)
+    print("-" * 25)
 
 def ejercicio22():
-    print("EJERCICIO 22")
-    print("-"*25)
-    a22 = np.array([1,2,3,4,5])
-    a22 = np.where(a22%2==0,a22+5,a22-3)
-    print(a22)
-    print("-"*25)
+    print("EJERCICIO 22: Producto matricial @")
+    a = np.random.random((3, 3))
+    b = np.random.random((3, 3))
+    res = a @ b
+    print(res)
+    print("-" * 25)
 
 def ejercicio23():
-    print("EJERCICIO 23")
-    print("-"*25)
-    a23 = np.array([1,2,3,4,5])
-    a23 = np.where(a23%2==0,a23+5,a23-3)
-    print(a23)
-    print("-"*25)
+    print("EJERCICIO 23: Diagonales de 10x10")
+    m = np.arange(100).reshape(10, 10)
+    diag = np.diagonal(m)
+    arriba = np.diagonal(m, offset=1)
+    abajo = np.diagonal(m, offset=-1)
+    print("Principal:", diag)
+    print("Arriba:", arriba)
+    print("Abajo:", abajo)
+    print("-" * 25)
 
 def ejercicio24():
-    print("EJERCICIO 24")
-    print("-"*25)
-    a24 = np.array([1,2,3,4,5])
-    a24 = np.where(a24%2==0,a24+5,a24-3)
-    print(a24)
-    print("-"*25)
+    print("EJERCICIO 24: Redondeo al más cercano")
+    arr = np.random.uniform(0, 10, 20)
+    res = np.round(arr)
+    print("Original:", arr[:5])
+    print("Redondeado:", res[:5])
+    print("-" * 25)
 
 def ejercicio25():
-    print("EJERCICIO 25")
-    print("-"*25)
-    a25 = np.array([1,2,3,4,5])
-    a25 = np.where(a25%2==0,a25+5,a25-3)
-    print(a25)
-    print("-"*25)
+    print("EJERCICIO 25: Suma eje 1 en (6, 7, 8)")
+    arr = np.ones((6, 7, 8))
+    res = np.sum(arr, axis=1)
+    print("Shape resultado:", res.shape)
+    print("-" * 25)
 
 def ejercicio26():
-    print("EJERCICIO 26")
-    print("-"*25)
-    a26 = np.array([1,2,3,4,5])
-    a26 = np.where(a26%2==0,a26+5,a26-3)
-    print(a26)
-    print("-"*25)
+    print("EJERCICIO 26: Valores únicos y conteos")
+    arr = np.array([1, 2, 1, 3, 2, 4, 5, 2, 3, 1, 5, 5])
+    valores, conteos = np.unique(arr, return_counts=True)
+    print("Valores:", valores)
+    print("Conteos:", conteos)
+    print("-" * 25)
 
 def ejercicio27():
-    print("EJERCICIO 27")
-    print("-"*25)
-    a27 = np.array([1,2,3,4,5])
-    a27 = np.where(a27%2==0,a27+5,a27-3)
-    print(a27)
-    print("-"*25)
+    print("EJERCICIO 27: np.where (1 si > 0.5, sino -1)")
+    arr = np.random.random(10)
+    res = np.where(arr > 0.5, 1, -1)
+    print("Array:", arr)
+    print("Resultado:", res)
+    print("-" * 25)
 
 def ejercicio28():
-    print("EJERCICIO 28")
-    print("-"*25)
-    a28 = np.array([1,2,3,4,5])
-    a28 = np.where(a28%2==0,a28+5,a28-3)
-    print(a28)
-    print("-"*25)
+    print("EJERCICIO 28: Distancia Euclidiana")
+    a = np.array([1, 2, 3])
+    b = np.array([4, 5, 6])
+    dist = np.sqrt(np.sum((a - b)**2))
+    print("Distancia:", dist)
+    print("-" * 25)
 
 def ejercicio29():
-    print("EJERCICIO 29")
-    print("-"*25)
-    a29 = np.array([1,2,3,4,5])
-    a29 = np.where(a29%2==0,a29+5,a29-3)
-    print(a29)
-    print("-"*25)
+    print("EJERCICIO 29: Punto más cercano al origen")
+    puntos = np.random.uniform(-10, 10, (1000, 2))
+    distancias = np.sqrt(np.sum(puntos**2, axis=1))
+    indice_min = np.argmin(distancias)
+    print(f"Punto más cercano: {puntos[indice_min]} a distancia {distancias[indice_min]:.4f}")
+    print("-" * 25)
 
 def ejercicio30():
-    print("EJERCICIO 30")
-    print("-"*25)
-    a30 = np.array([1,2,3,4,5])
-    a30 = np.where(a30%2==0,a30+5,a30-3)
-    print(a30)
-    print("-"*25)
+    print("EJERCICIO 30: Columnas pares cuadrado, impares raíz")
+    m = np.random.randint(1, 100, (10, 10)).astype(float)
+    m[:, 0::2] = m[:, 0::2]**2
+    m[:, 1::2] = np.sqrt(m[:, 1::2])
+    print(m[:2, :4]) # Muestra una parte
+    print("-" * 25)
 
 ejercicio1()    
 ejercicio2()    
